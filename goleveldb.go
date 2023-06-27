@@ -33,10 +33,10 @@ var _ DB = (*GoLevelDB)(nil)
 func NewGoLevelDB(name string, dir string, opts ...*NewDatabaseOption) (*GoLevelDB, error) {
 	externalOpt := &NewDatabaseOption{}
 	// TODO: use option pattern
-	if len(opts) > 1 {
+	if len(opts) > 0 {
 		externalOpt = opts[0]
 	}
-	cache := externalOpt.Cache
+	cache := externalOpt.Cache / opt.MiB
 	if cache < minCache {
 		cache = minCache
 	}
@@ -54,6 +54,7 @@ func NewGoLevelDB(name string, dir string, opts ...*NewDatabaseOption) (*GoLevel
 }
 
 func NewGoLevelDBWithOpts(name string, dir string, o *opt.Options) (*GoLevelDB, error) {
+	fmt.Printf("NewGoLevelDBWithOpts: %s, %s, %+v\n", name, dir, o)
 	dbPath := filepath.Join(dir, name+".db")
 	db, err := leveldb.OpenFile(dbPath, o)
 	if err != nil {
