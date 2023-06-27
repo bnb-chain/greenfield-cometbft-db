@@ -3,9 +3,7 @@ package db
 import (
 	"fmt"
 	"path/filepath"
-	"syscall"
 
-	"github.com/pbnjay/memory"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/syndtr/goleveldb/leveldb/filter"
@@ -17,31 +15,13 @@ const (
 	// minCache is the minimum amount of memory in megabytes to allocate to leveldb
 	// read and write caching, split half and half.
 	minCache = 16
-
-	// hardlimit is the number of file descriptors allowed at max by the kernel.
-	hardlimit = 10240
 )
 
 func init() {
-	dbCreator := func(name string, dir string) (DB, error) {
-		return NewGoLevelDB(name, dir)
+	dbCreator := func(name string, dir string, opts ...*NewDatabaseOption) (DB, error) {
+		return NewGoLevelDB(name, dir, opts...)
 	}
 	registerDBCreator(GoLevelDBBackend, dbCreator, false)
-}
-
-// maximum retrieves the maximum number of file descriptors this process is
-// allowed to request for itself.
-func maximum() (int, error) {
-	// Retrieve the maximum allowed by dynamic OS limits
-	var limit syscall.Rlimit
-	if err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &limit); err != nil {
-		return 0, err
-	}
-	// Cap it to OPEN_MAX (10240) because macos is a special snowflake
-	if limit.Max > hardlimit {
-		limit.Max = hardlimit
-	}
-	return int(limit.Max), nil
 }
 
 type GoLevelDB struct {
@@ -50,17 +30,23 @@ type GoLevelDB struct {
 
 var _ DB = (*GoLevelDB)(nil)
 
-func NewGoLevelDB(name string, dir string) (*GoLevelDB, error) {
-	cache := int(memory.TotalMemory() / opt.MiB / 2)
+func NewGoLevelDB(name string, dir string, opts ...*NewDatabaseOption) (*GoLevelDB, error) {
+	externalOpt := &NewDatabaseOption{}
+	// TODO: use option pattern
+	if len(opts) > 1 {
+		externalOpt = opts[0]
+	}
+	cache := externalOpt.Cache
 	if cache < minCache {
 		cache = minCache
 	}
-	handles, err := maximum()
-	if err != nil {
-		return nil, err
+	handles := 200
+	if externalOpt.Handles > handles {
+		handles = externalOpt.Handles
 	}
+
 	return NewGoLevelDBWithOpts(name, dir, &opt.Options{
-		OpenFilesCacheCapacity: handles / 2, // Leave half for networking and other stuff
+		OpenFilesCacheCapacity: handles,
 		BlockCacheCapacity:     cache / 2 * opt.MiB,
 		WriteBuffer:            cache / 4 * opt.MiB, // Two of these are used internally
 		Filter:                 filter.NewBloomFilter(10),
