@@ -44,12 +44,16 @@ func NewGoLevelDB(name string, dir string, opts ...*NewDatabaseOption) (*GoLevel
 	if externalOpt.Handles > handles {
 		handles = externalOpt.Handles
 	}
+	filterSize := 10
+	if externalOpt.Filter > filterSize {
+		filterSize = externalOpt.Filter
+	}
 
 	return NewGoLevelDBWithOpts(name, dir, &opt.Options{
 		OpenFilesCacheCapacity: handles,
 		BlockCacheCapacity:     cache / 2 * opt.MiB,
 		WriteBuffer:            cache / 4 * opt.MiB, // Two of these are used internally
-		Filter:                 filter.NewBloomFilter(10),
+		Filter:                 filter.NewBloomFilter(filterSize),
 	})
 }
 
