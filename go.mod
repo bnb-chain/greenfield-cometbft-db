@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/dgraph-io/badger/v2 v2.2007.4
 	github.com/gogo/protobuf v1.3.2
-	github.com/google/btree v1.1.2
+	github.com/google/btree v1.1.3
 	github.com/jmhodges/levigo v1.0.0
 	github.com/linxGnu/grocksdb v1.7.16
 	github.com/stretchr/testify v1.8.4
@@ -23,7 +23,6 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.3 // indirect
 	github.com/klauspost/compress v1.12.3 // indirect
-	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // indirect
 	github.com/pkg/errors v0.8.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	golang.org/x/net v0.9.0 // indirect
