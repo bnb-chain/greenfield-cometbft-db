@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+  merge_group:
   pull_request:
 jobs:
   cleanup-runs:
@@ -19,15 +20,15 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Docker Build
-        uses: docker/setup-buildx-action@v2.7.0
+        uses: docker/setup-buildx-action@v3.0.0
         with:
           driver: docker
 
       - name: Build Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: ./tools
           file: ./tools/Dockerfile

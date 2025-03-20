@@ -1,5 +1,68 @@
 # CHANGELOG
 
+## v0.9.5
+
+*September 10, 2024*
+
+This release bumps the Go version to 1.22 and updates dependencies.
+
+### DEPENDENCIES
+
+- bumped go version to 1.22, updated depencency version to fix a
+  vulnerability ([\#200](https://github.com/cometbft/cometbft-db/pull/200))
+- switched to `informalsystems/goleveldb` fork to fix a vulnerability imported
+  via dependencies ([\#191](https://github.com/cometbft/cometbft-db/pull/191))
+
+## v0.9.4
+
+*August 20, 2024*
+
+This release updates the dependencies to the latest patch versions.
+
+### DEPENDENCIES
+
+- update dependencies and add support for RocksDB 9.2.1
+  [\#186](https://github.com/cometbft/cometbft-db/pull/186)
+
+## v0.9.3
+
+*August 19, 2024*
+
+This release bumps the Go version to 1.21.13, updates a dependency to address a
+security vulnerability, and retracts v0.9.2. 
+
+### DEPENDENCIES
+
+- bumped go version to 1.21.13, updated depencency version to fix a
+  vulnerability ([\#182](https://github.com/cometbft/cometbft-db/pull/182))
+
+## v0.9.1
+
+*December 4, 2023*
+
+This release is precisely the same code-wise as v0.9.0, except that it builds
+the `cometbft/cometbft-db-testing` Docker image for both `linux/amd64` and
+`linux/arm64` platforms.
+
+## v0.9.0
+
+*December 1, 2023*
+
+This release primarily updates some key dependencies, including adding support
+for RocksDB v8. It also bumps the minimum Go version to v1.21 in order for
+CometBFT to be able to use it in the E2E testing framework for the latest major
+releases.
+
+### DEPENDENCIES
+
+- Use RocksDB v8, testing with v8.8.1
+  ([\#97](https://github.com/cometbft/cometbft-db/pull/97))
+
+### GO VERSION
+
+- Bump minimum Go version to v1.21
+  ([\#98](https://github.com/cometbft/cometbft-db/pull/98))
+
 ## v0.8.0
 
 *Apr 26, 2023*
@@ -21,10 +84,10 @@ upgrade to the latest version(s) of Go ASAP.
 
 ### DEPENDENCIES
 
-- Update to the latest version of golang.org/x/net
-  ([\#40](https://github.com/cometbft/cometbft-db/pull/40))
 - Switch rocksdb binding from gorocksdb to grocksdb, bump librocksdb dependency
   to `v7.10.2` ([\#42](https://github.com/cometbft/cometbft-db/pull/42))
+- Update to the latest version of golang.org/x/net
+  ([\#40](https://github.com/cometbft/cometbft-db/pull/40))
 
 ## v0.7.0
 
