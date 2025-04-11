@@ -16,6 +16,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: golangci/golangci-lint-action@v6
         with:
-          args: --timeout 10m
+          # Required: the version of golangci-lint is required and
+          # must be specified without patch version: we always use the
+          # latest patch version.
           version: latest
+          skip-pkg-cache: true
+          skip-cache: true
+          skip-build-cache: true
+          args: --timeout 30m -v
           github-token: ${{ secrets.github_token }}
