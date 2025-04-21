@@ -18,6 +18,7 @@ all: lint test
 ## By default this will only test memdb & goleveldb
 test:
 	@echo "--> Running go test"
+	@go mod tidy
 	@go test $(PACKAGES) -v
 .PHONY: test
 
@@ -116,5 +117,5 @@ clean_certs:
 protoc_remotedb: remotedb/proto/defs.pb.go
 
 vulncheck:
-		@go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+		@go run golang.org/x/vuln/cmd/govulncheck@v0.3.0 ./...
 .PHONY: vulncheck

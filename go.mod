@@ -11,7 +11,7 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca
 	go.etcd.io/bbolt v1.3.11
-	google.golang.org/grpc v1.66.1
+	google.golang.org/grpc v1.56.1
 )
 
 replace github.com/syndtr/goleveldb => github.com/informalsystems/goleveldb v0.0.0-20240822155617-8112573615f8
